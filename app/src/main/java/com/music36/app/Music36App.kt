@@ -10,6 +10,8 @@ import com.music36.app.lecture.Lecteur
 import com.music36.app.lecture.SortieAudio
 import com.music36.app.lecture.SortieMaterielle
 import android.util.Log
+import com.music36.app.data.StyleInterface
+import java.io.File
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Le point de rassemblement de l'application.
@@ -73,6 +76,8 @@ class Music36App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        imposerLaVueRetroALaPremiereOuverture()
+
         sortieMaterielle.demarrer()
         sortieMaterielle.sortie
             .onEach { SortieAudio.decrireMateriel(it) }
@@ -87,4 +92,32 @@ class Music36App : Application() {
             }
         }
     }
+
+    /**
+     * Toute nouvelle installation s'ouvre sur la vue Rétro.
+     *
+     * ⚠️ La valeur par défaut ne suffit pas : à la réinstallation, Android restaure la sauvegarde
+     * des réglages, et un ancien choix « Interface moderne » revenait avec elle. Le témoin vit
+     * dans `noBackupFilesDir`, que la sauvegarde ne restaure **jamais** : son absence signe une
+     * installation neuve, restaurée ou non. Une simple mise à jour garde le choix de chacun.
+     *
+     * Bloquant, mais une seule fois par installation : écrit en tâche de fond, le réglage
+     * pouvait arriver après le premier écran et le faire changer d'interface sous les yeux.
+     */
+    internal fun imposerLaVueRetroALaPremiereOuverture() {
+        val temoin = File(noBackupFilesDir, TEMOIN_PREMIERE_OUVERTURE)
+        if (temoin.exists()) return
+        val paquet = packageManager.getPackageInfo(packageName, 0)
+        // Une mise à jour (installée ≠ mise à jour) garde le choix de chacun, même sans témoin :
+        // c'est le cas de tout le monde au passage à la 5.4.
+        if (paquet.firstInstallTime == paquet.lastUpdateTime) {
+            runBlocking { reglages.modifier { it.copy(style = StyleInterface.RETRO) } }
+        }
+        runCatching { temoin.createNewFile() }
+    }
+
+    internal companion object {
+        const val TEMOIN_PREMIERE_OUVERTURE = "premiere_ouverture_faite"
+    }
 }
+

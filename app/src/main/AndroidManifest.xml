@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Aucune permission de stockage n'est demandée : les fichiers sont lus par SAF, à travers
@@ -13,6 +14,15 @@
     <!-- Égaliseur et effets audio -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <!--
+        Aucune permission réseau : ni INTERNET (jamais demandée), ni l'état du réseau qu'ajoute
+        media3 pour adapter le streaming, dont un lecteur de fichiers locaux n'a que faire —
+        media3 tolère son absence. L'application ne peut ni se connecter, ni savoir si elle le
+        pourrait.
+    -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
 
     <application
         android:name=".Music36App"

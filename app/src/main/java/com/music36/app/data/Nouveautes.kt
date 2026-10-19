@@ -36,6 +36,19 @@ object Nouveautes {
 
     val journal: List<Nouveaute> = listOf(
         Nouveaute(
+            code = 46, nom = "5.4", date = "octobre 2026",
+            lignes = listOf(
+                correction(
+                    "Une nouvelle installation s'ouvre toujours sur la vue Rétro, même quand " +
+                        "Android restaure d'anciens réglages où l'interface moderne était choisie."
+                ),
+                amelioration(
+                    "Plus aucune permission réseau : en plus d'internet, l'application ne peut " +
+                        "même plus savoir si le téléphone est connecté."
+                )
+            )
+        ),
+        Nouveaute(
             code = 45, nom = "5.3", date = "octobre 2026",
             lignes = listOf(
                 amelioration(

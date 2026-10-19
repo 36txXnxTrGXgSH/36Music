@@ -6,6 +6,9 @@ réseau, sans permission de stockage, et sans rien altérer du son.
 
 **[⬇ Télécharger l'APK](https://github.com/36txXnxTrGXgSH/36Music/releases/latest)** · **[Page de présentation](https://36txXnxTrGXgSH.github.io/36Music/)**
 
+> 🔒 **Aucune connexion internet** — l'application n'a aucune permission réseau : Android lui
+> interdit tout accès à internet. Rien n'est envoyé, rien n'est reçu.
+>
 > 🇫🇷 **Application en français uniquement** — menus, messages et documentation n'existent qu'en
 > français.
 >
@@ -41,7 +44,8 @@ depuis le code (`CapturesPresentationTest`).</sub>
   triés d'un appui, exportés ou partagés en M3U8, M3U ou XSPF.
 - **Une molette à votre image** : 23 ambiances, 15 styles de roue, effets, 6 barres de
   progression, 3 configurations enregistrées.
-- **Rien ne quitte le téléphone** : aucune connexion, aucun compte, aucune publicité.
+- **Rien ne quitte le téléphone** : aucune connexion internet (aucune permission réseau),
+  aucun compte, aucune publicité.
 
 L'interface moderne (onglets, lecteur plein écran) reste disponible depuis *Réglages → Interface
 moderne*.
@@ -263,7 +267,7 @@ du JBR récent d'Android Studio) :
 ```bash
 export JAVA_HOME=/chemin/vers/un/jdk-21
 ./gradlew assembleDebug        # app/build/outputs/apk/debug/app-debug.apk
-./gradlew testDebugUnitTest    # 249 tests
+./gradlew testDebugUnitTest    # 252 tests
 ./gradlew assembleRelease      # APK optimisé par R8
 ```
 
@@ -329,7 +333,7 @@ Cinq notes détaillent les parties qui se paient cher si on les redécouvre :
 
 ## Tests
 
-`./gradlew testDebugUnitTest` — 249 tests, dont :
+`./gradlew testDebugUnitTest` — 252 tests, dont :
 
 - vingt et un qui **composent réellement l'interface** sous Robolectric (premier démarrage, sept
   onglets, paramètres, écran des palettes) et **pilotent la molette** (rotation mesurée en crans,

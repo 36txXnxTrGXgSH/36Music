@@ -1183,7 +1183,7 @@ internal fun entreesPour(
             EntreeRetro("Nouveautés de cette version", fleche = true) {
                 ouvrir(NiveauRetro.NouveautesRetro)
             },
-            EntreeRetro("Réseau", detail = "aucun accès : la permission INTERNET est absente") {},
+            EntreeRetro("Internet", detail = "aucune connexion : l'application n'a aucune permission réseau") {},
             EntreeRetro("Titres", valeur = "${pistes.size}") {}
         )
 
