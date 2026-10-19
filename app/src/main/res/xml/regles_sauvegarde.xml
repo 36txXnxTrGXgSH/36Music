@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Playlists, favoris et réglages sont sauvegardés. Le cache des pochettes ne l'est pas : il se
+    reconstruit tout seul à la première analyse.
+-->
+<full-backup-content>
+    <include domain="database" path="." />
+    <include domain="file" path="datastore" />
+</full-backup-content>

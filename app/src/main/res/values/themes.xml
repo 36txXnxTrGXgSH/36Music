@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Thème de la fenêtre, visible le temps que Compose prenne la main. Les vraies couleurs de
+    l'application viennent de ThemeMusique ; celui-ci ne sert qu'à éviter un éclair blanc ou noir
+    au lancement, d'où la déclinaison values-night.
+-->
+<resources>
+    <style name="Theme.Music36" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/fond_fenetre</item>
+    </style>
+</resources>

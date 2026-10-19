@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Les seuls fichiers que 36Music accepte de montrer à une autre application : les playlists
+    qu'elle vient d'écrire pour un partage, dans son propre cache. Rien d'autre n'est exposé —
+    ni la bibliothèque, ni la base, ni les réglages.
+-->
+<paths>
+    <cache-path name="partage" path="partage/" />
+</paths>

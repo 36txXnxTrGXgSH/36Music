@@ -1,0 +1,30 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/keystore.properties
+/keystore/
+*.jks
+*.keystore
+
+# Sorties de compilation, a tous les niveaux : « /build » ne couvrait que la racine,
+# et 5 600 fichiers de app/build/ seraient partis au premier commit.
+build/
+.kotlin/
+*.hprof
+
+# Livrables : publies comme « release », jamais dans le depot
+*.apk
+*.aab
+
+# Extraits audio : de la musique sous droits, jamais dans un depot public
+*.wav
+
+# Outillage local
+.claude/
