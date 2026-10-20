@@ -1,5 +1,12 @@
 package com.music36.app
 
+import androidx.media3.common.C
+import androidx.media3.common.Format
+import androidx.media3.common.MimeTypes
+import com.music36.app.lecture.InfoSortieMaterielle
+import com.music36.app.lecture.SortieAudio
+import com.music36.app.lecture.TypeSortie
+import org.junit.After
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.LinearGradient
@@ -95,8 +102,13 @@ class CapturesPresentationTest {
             app.depot.creerPlaylist("Concentration", pistes.filter { it.genre in setOf("Classique", "Ambient") }.map { it.uri })
             app.depot.creerPlaylist("Route du soir", pistes.shuffled(kotlin.random.Random(7)).take(9).map { it.uri })
             pistes.take(4).forEach { app.base.favoris().ajouter(Favori(it.uri, 1L)) }
+            // Les quatre rangs de qualité côte à côte, pour la capture des couleurs.
+            app.depot.creerPlaylist("Un peu de tout", listOf(
+                "Moteur", "Signal", "Valse des phares", "Papier glacé", "Lumière d'août",
+                "Atlas", "Néons d'hiver", "Ligne blanche", "Hors cadre", "Haute mer"
+            ).map { titre -> pistes.first { it.titre == titre }.uri })
         }
-        attendre { app.depot.pistes.value.size == pistes.size && app.depot.playlists.value.size == 3 }
+        attendre { app.depot.pistes.value.size == pistes.size && app.depot.playlists.value.size == 4 }
     }
 
     // ------------------------------------------------------------------ la bibliothèque inventée
@@ -132,7 +144,11 @@ class CapturesPresentationTest {
             listOf("Rétroviseur", "Moteur", "Ligne blanche", "Fin de partie")),
         Album("Céleste Moreau", "Éclats", "Jazz", 2018, Triple("FLAC", 88_200, 24),
             0xFF5DA9E9.toInt() to 0xFF1B1B3A.toInt(),
-            listOf("Éclats", "Bleu nuit", "Ça tourne", "Été indien"))
+            listOf("Éclats", "Bleu nuit", "Ça tourne", "Été indien")),
+        // Le rang « compressé » : de l'AAC, sans profondeur de bits (un format avec perte n'en a pas).
+        Album("Iris Calder", "Papier glacé", "Pop", 2017, Triple("M4A", 44_100, 0),
+            0xFFB8C6DB.toInt() to 0xFF3E4A61.toInt(),
+            listOf("Papier glacé", "Néons d'hiver", "Lettre à Lou"))
     )
 
     private fun bibliotheque(): List<Piste> {
@@ -159,7 +175,11 @@ class CapturesPresentationTest {
                     dateFichier = 1L,
                     dateAjout = 1_700_000_000_000L + (a * 10 + n) * 86_400_000L,
                     format = format,
-                    debit = if (format == "MP3") 320 else 1_400 + a * 120,
+                    debit = when (format) {
+                        "MP3" -> 320
+                        "M4A" -> 256
+                        else -> 1_400 + a * 120
+                    },
                     echantillonnage = frequence,
                     bits = bits,
                     canaux = 2,
@@ -217,8 +237,15 @@ class CapturesPresentationTest {
         regle.waitForIdle()
     }
 
-    private fun enLecture(): EtatLecture {
-        val piste = pistes.first { it.titre == "Signal" }
+    @After
+    fun oublierLaSortie() {
+        SortieAudio.decrireMateriel(null)
+        SortieAudio.decrireDecodeur(null)
+        SortieAudio.effacer()
+    }
+
+    private fun enLecture(titre: String = "Signal"): EtatLecture {
+        val piste = pistes.first { it.titre == titre }
         return EtatLecture(
             piste = piste,
             file = pistes,
@@ -329,6 +356,49 @@ class CapturesPresentationTest {
     fun `10 egaliseur et son`() {
         afficher { EcranRetro(NiveauRetro.ParamSon) }
         enregistrer("10-son")
+    }
+
+    @Test
+    fun `11 couleurs de qualite`() {
+        val id = app.depot.playlists.value.first { it.playlist.nom == "Un peu de tout" }.playlist.id
+        afficher { EcranRetro(NiveauRetro.Playlist(id)) }
+        enregistrer("11-couleurs-qualite")
+    }
+
+    @Test
+    fun `12 fiche du fichier`() {
+        SortieAudio.decrireDecodeur("c2.android.flac.decoder")
+        afficher(lecture = enLecture("Lumière d'août")) { EcranRetro(NiveauRetro.InfosPiste) }
+        enregistrer("12-fiche-qualite")
+    }
+
+    @Test
+    fun `13 sortie vers un DAC USB`() {
+        // Ce que publient le service et la surveillance du matériel pendant une vraie lecture :
+        // un FLAC 24 bits / 192 kHz décodé tel quel, vers un DAC USB-C qui monte à 384 kHz.
+        SortieAudio.decrire(
+            Format.Builder()
+                .setSampleMimeType(MimeTypes.AUDIO_FLAC)
+                .setSampleRate(192_000)
+                .setChannelCount(2)
+                .setPcmEncoding(C.ENCODING_PCM_24BIT)
+                .build(),
+            sortieFlottante = true
+        )
+        SortieAudio.decrireMateriel(
+            InfoSortieMaterielle(
+                type = TypeSortie.USB,
+                nom = "DAC USB-C",
+                frequences = listOf(44_100, 48_000, 96_000, 192_000, 384_000),
+                profondeurs = listOf(16, 24, 32),
+                canaux = 2
+            )
+        )
+        afficher(
+            EtatReglages(style = StyleInterface.RETRO, fondLecteurRetro = 1),
+            lecture = enLecture("Valse des phares")
+        ) { EcranRetro(NiveauRetro.Lecture) }
+        enregistrer("13-sortie-dac")
     }
 
     private companion object {

@@ -205,6 +205,26 @@ Pour revenir à l'interface classique : molette → Réglages → Interface mode
 
 ## Qualité sonore
 
+<p align="center">
+  <img src="docs/images/11-couleurs-qualite.png" width="200" alt="Couleurs de qualité">
+  <img src="docs/images/12-fiche-qualite.png" width="200" alt="Fiche du fichier">
+  <img src="docs/images/13-sortie-dac.png" width="200" alt="Qualité décodée et sortie DAC USB">
+</p>
+
+**La couleur des titres** dit la qualité du fichier, dans toutes les listes de la vue Rétro :
+
+| Couleur | Rang | Ce que cela veut dire |
+| --- | --- | --- |
+| cyan | **Haute résolution** | sans perte au-delà du CD : plus de 16 bits ou plus de 48 kHz (badge `Hi-Res` à la lecture) |
+| or | **Sans perte** | FLAC, ALAC, WAV, AIFF, APE, WavPack, DSD en qualité CD |
+| gris bleuté | **Compressé** | AAC/M4A, Opus, Ogg Vorbis : avec perte, mais de génération récente |
+| couleur normale | **Ordinaire** | MP3, WMA et le reste — un MP3 320 kbit/s reste ordinaire |
+
+Sous la pochette, la **qualité réellement décodée** (`FLAC · 24 bits · 192 kHz · stéréo`) et la
+**sortie matérielle** avec ses capacités (`DAC USB-C · jusqu'à 32 bits / 384 kHz`) ; le bouton ⓘ
+ouvre la fiche du fichier (rang, décodeur employé). Tout le détail, limites comprises, sur la
+[page de présentation](https://36txXnxTrGXgSH.github.io/36Music/#qualite).
+
 Le point de départ : **ne rien abîmer**.
 
 - Sortie **32 bits flottante** activée par défaut (`DefaultRenderersFactory.setEnableAudioFloatOutput`) :

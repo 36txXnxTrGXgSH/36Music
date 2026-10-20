@@ -70,7 +70,7 @@
     background: linear-gradient(145deg, #2b3438, #12181a);
     box-shadow: 0 30px 60px rgba(0, 0, 0, .45), inset 0 0 0 1px #3a464b;
   }
-  .telephone img { display: block; width: 100%; border-radius: 26px; }
+  .telephone img { display: block; width: 100%; height: auto; border-radius: 26px; }
 
   /* ---- sections */
   section { padding: 72px 0; border-bottom: 1px solid var(--trait); }
@@ -114,6 +114,24 @@
 
   footer { padding: 40px 0 56px; color: var(--texte-2); font-size: 15px; }
   footer .page { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; }
+
+  /* ---- qualité */
+  .sous-titre { font-size: 22px; margin: 56px 0 22px; color: var(--accent); }
+  .rangs { margin: 18px 0 0; display: grid; gap: 10px; }
+  .rang {
+    display: grid; grid-template-columns: 6px 1fr; gap: 14px;
+    background: var(--carte); border: 1px solid var(--trait); border-radius: 12px; padding: 14px 16px;
+  }
+  .rang .lisere { border-radius: 3px; background: var(--c); }
+  .rang .lisere.neutre { background: #3a464b; }
+  .rang strong { color: var(--c); font-size: 18px; }
+  .rang strong.neutre-texte { color: var(--texte); }
+  .rang p { margin: 4px 0 0; color: var(--texte-2); font-size: 15.5px; }
+  .rang .exemple { font-size: 14px; color: var(--texte-2); margin-top: 6px; }
+  .note { color: var(--texte-2); font-size: 14.5px; margin-top: 14px; }
+  .limites { padding-left: 20px; }
+  .limites li { padding: 7px 0; color: var(--texte-2); }
+  .limites li strong { color: var(--texte); }
 
   @media (max-width: 820px) {
     .hero .page, .fonction, .fonction.inverse { grid-template-columns: 1fr; gap: 36px; }
@@ -181,7 +199,101 @@
         <li><strong>ALAC intégré</strong> <span>— un décodeur Apple Lossless embarqué, même pour les fichiers mal étiquetés</span></li>
         <li><strong>Confort</strong> <span>— fondu, saut des silences, vitesse de 0,5× à 2,5×, reprise exacte des longues pistes</span></li>
       </ul>
+      <p class="note"><a href="#qualite">Tout le détail : couleurs, qualité décodée et sortie audio ↓</a></p>
     </div>
+  </div>
+</section>
+
+<section id="qualite">
+  <div class="page">
+    <h2>La qualité de vos musiques, en détail</h2>
+    <p class="chapeau">36Music ne se contente pas de lire : il montre ce que vaut chaque fichier, ce que le décodeur en tire réellement, et jusqu'où votre matériel peut le restituer.</p>
+
+    <h3 class="sous-titre">1. La couleur des titres</h3>
+    <div class="fonction">
+      <div class="telephone"><img src="images/11-couleurs-qualite.png" alt="Une playlist où les titres sont colorés selon leur qualité : cyan pour la haute résolution, or pour le sans perte, gris bleuté pour l'AAC, couleur normale pour le MP3" width="540" height="1161" loading="lazy"></div>
+      <div>
+        <p>Dans toutes les listes de la vue Rétro (chansons, albums, playlists, résultats de recherche), le titre de chaque morceau prend la couleur de son <strong>rang de qualité</strong>, avec un liseré de la même couleur à gauche. Le rang se déduit du format du fichier, de sa profondeur et de sa fréquence :</p>
+        <div class="rangs">
+          <div class="rang" style="--c:#59D0D8"><span class="lisere"></span><div>
+            <strong>Haute résolution</strong> — cyan
+            <p>Un format sans perte <em>au-delà du CD</em> : plus de 16 bits, ou plus de 48 kHz. À la lecture, un badge <code>Hi-Res</code> s'affiche sous la pochette.</p>
+            <div class="exemple">FLAC 24 bits / 96 kHz · FLAC 24 bits / 192 kHz · ALAC 24 bits / 48 kHz</div>
+          </div></div>
+          <div class="rang" style="--c:#E9B934"><span class="lisere"></span><div>
+            <strong>Sans perte</strong> — or
+            <p>La copie exacte de l'enregistrement, en qualité CD (16 bits, 44,1 ou 48 kHz). Formats reconnus : FLAC, ALAC, WAV, AIFF, APE, WavPack, DSD, PCM.</p>
+            <div class="exemple">FLAC 16 bits / 44,1 kHz · WAV 16 bits / 48 kHz</div>
+          </div></div>
+          <div class="rang" style="--c:#BABFCD"><span class="lisere"></span><div>
+            <strong>Compressé</strong> — gris bleuté, volontairement discret
+            <p>Une compression avec perte de génération récente : AAC (M4A, MP4), Opus, Ogg Vorbis. À débit égal, elle conserve nettement plus que le MP3 : c'est la seule différence utile entre deux fichiers compressés.</p>
+            <div class="exemple">M4A · 44,1 kHz · 256 kbit/s</div>
+          </div></div>
+          <div class="rang"><span class="lisere neutre"></span><div>
+            <strong class="neutre-texte">Ordinaire</strong> — couleur de texte habituelle
+            <p>Le MP3, le WMA et tout le reste. Un MP3 à 320 kbit/s reste ordinaire : la compression a déjà retiré une partie du signal, quoi qu'annonce l'en-tête du fichier. Pas de couleur de plus à déchiffrer pour le cas le plus courant.</p>
+            <div class="exemple">MP3 · 44,1 kHz · 320 kbit/s</div>
+          </div></div>
+        </div>
+        <p class="note">Couleurs du thème sombre. Sur fond clair, chaque teinte est assombrie pour rester lisible : toutes sont calculées et vérifiées contre le fond réel des lignes, dans chaque ambiance de couleurs, au seuil de contraste recommandé pour un texte courant (WCAG). Le titre sélectionné prend la couleur de la sélection.</p>
+      </div>
+    </div>
+
+    <h3 class="sous-titre">2. La fiche de chaque fichier</h3>
+    <div class="fonction inverse">
+      <div class="telephone"><img src="images/12-fiche-qualite.png" alt="La fiche Informations d'un FLAC 24 bits / 96 kHz : qualité, rang Haute résolution, taille, décodeur" width="540" height="1161" loading="lazy"></div>
+      <div>
+        <p>Le bouton <strong>ⓘ</strong> de l'écran <em>Lecture en cours</em> ouvre la fiche technique du morceau, à parcourir à la molette :</p>
+        <ul class="points">
+          <li><strong>Qualité</strong> <span>— format, profondeur et fréquence lus dans le fichier ; le débit pour les formats compressés, « mono » s'il y a lieu</span></li>
+          <li><strong>Rang</strong> <span>— le nom du rang, écrit dans sa couleur : c'est là qu'on apprend le code des couleurs</span></li>
+          <li><strong>Haute résolution</strong> <span>— « oui » quand le fichier dépasse la qualité CD</span></li>
+          <li><strong>Décodeur</strong> <span>— le composant qui décode réellement le son (par exemple <code>c2.android.flac.decoder</code>). « Aucun » signifie que le téléphone ne sait pas lire ce format : un morceau muet se diagnostique ici</span></li>
+          <li><strong>Flux décodé</strong> <span>— le morceau que la chaîne audio traite vraiment, s'il diffère de celui affiché</span></li>
+          <li><strong>Taille, fichier, dossier</strong> <span>— pour retrouver le fichier sur le téléphone</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sous-titre">3. Ce qui est réellement joué, et où</h3>
+    <div class="fonction">
+      <div class="telephone"><img src="images/13-sortie-dac.png" alt="L'écran Lecture en cours d'un FLAC 24 bits / 192 kHz avec le badge Hi-Res et la sortie DAC USB-C jusqu'à 32 bits / 384 kHz" width="540" height="1161" loading="lazy"></div>
+      <div>
+        <p>Sous la pochette, deux lignes disent ce qui se passe <em>pendant</em> la lecture, et non ce que promettent les étiquettes du fichier :</p>
+        <ul class="points">
+          <li><strong>La qualité décodée</strong> <span>— mesurée à la sortie du décodeur : <code>FLAC · 24 bits · 192 kHz · stéréo</code>. C'est elle qui fait foi : un fichier mal étiqueté ne peut pas tromper cette ligne. Le badge <code>Hi-Res</code> la précède pour les fichiers haute résolution</span></li>
+          <li><strong>La sortie matérielle</strong> <span>— l'appareil qui reçoit le son et ce qu'il accepte au maximum, tel que le matériel le déclare : <code>DAC USB-C · jusqu'à 32 bits / 384 kHz</code>. Sont reconnus les DAC USB, casques filaires, appareils Bluetooth, sorties HDMI et le haut-parleur</span></li>
+        </ul>
+        <p class="note">En comparant les deux lignes, on sait d'un coup d'œil si la chaîne est à la hauteur du fichier : un 24 bits / 192 kHz vers un DAC qui monte à 384 kHz arrive intact ; le même fichier vers un haut-parleur limité à 48 kHz sera converti par Android.</p>
+      </div>
+    </div>
+
+    <h3 class="sous-titre">4. La chaîne audio, du fichier à vos oreilles</h3>
+    <p class="chapeau">Du fichier jusqu'à Android, 36Music n'ajoute aucune perte : ce qui sort du décodeur est ce qui entre dans le système, bit pour bit.</p>
+    <table>
+      <tr><th>Décodage</th><td>Exact pour les formats sans perte (FLAC, ALAC, WAV, AIFF). Un décodeur ALAC est intégré à l'application : les fichiers Apple Lossless se lisent même sur les téléphones qui n'en ont pas.</td></tr>
+      <tr><th>Profondeur</th><td><strong>Sortie 32 bits flottante</strong> : un fichier 24 ou 32 bits n'est jamais tronqué à 16 bits.</td></tr>
+      <tr><th>Fréquence</th><td>Le flux est transmis à la fréquence du fichier : l'application ne rééchantillonne jamais.</td></tr>
+      <tr><th>Traitement</th><td><strong>Aucun effet</strong> tant que l'égaliseur est éteint : ni égaliseur, ni renforcement des graves, ni gain.</td></tr>
+      <tr><th>Volume</th><td>Le volume numérique reste à 100 %. Seul le fondu à la pause et à la reprise y touche, et il est éteint par défaut (durée à zéro, réglable dans <em>Réglages → Paramètres de l'application → Lecture</em>). Le volume se règle sur le téléphone ou le DAC.</td></tr>
+      <tr><th>Normalisation</th><td>Aucune : ni ReplayGain, ni compresseur, ni limiteur. La dynamique de l'enregistrement est respectée.</td></tr>
+      <tr><th>Vitesse</th><td>Confiée au matériel ; à 1×, rien n'est appliqué.</td></tr>
+    </table>
+
+    <div class="grille">
+      <div class="carte"><h3>Sortie 32 bits flottante</h3><p><strong>Allumée par défaut.</strong> Évite de tronquer les fichiers 24 ou 32 bits. Se règle dans <em>Réglages → Paramètres de l'application → Qualité sonore</em> et prend effet au prochain démarrage.</p></div>
+      <div class="carte"><h3>Router vers le DAC USB</h3><p><strong>Allumé par défaut.</strong> Dès qu'un DAC ou un casque USB-C est branché, la lecture lui est confiée, même si une enceinte Bluetooth reste appairée. Débranché, Android reprend la main.</p></div>
+      <div class="carte"><h3>Déchargement audio</h3><p><strong>Éteint par défaut.</strong> Confie le décodage au processeur de signal du téléphone pour économiser la batterie. Incompatible avec l'égaliseur, et sans intérêt avec un DAC USB.</p></div>
+    </div>
+
+    <h3 class="sous-titre">Ce qu'aucune application ne peut garantir</h3>
+    <ul class="limites">
+      <li><strong>Le mélangeur d'Android.</strong> Après l'application, tous les sons du téléphone passent par le mélangeur du système, qui ouvre la sortie à sa propre fréquence (souvent 48 kHz sur le haut-parleur ou un casque filaire) et convertit ce qui n'y correspond pas. Aucune application ne peut l'empêcher sans embarquer son propre pilote USB.</li>
+      <li><strong>Avec un DAC USB,</strong> Android ouvre généralement la sortie à une fréquence que le DAC accepte : la chaîne est alors le plus souvent transparente de bout en bout — mais c'est le système qui le décide.</li>
+      <li><strong>En Bluetooth,</strong> le son est toujours recompressé par le codec Bluetooth (SBC, AAC, aptX, LDAC…), quel que soit le fichier d'origine.</li>
+      <li><strong>Le décodeur ALAC intégré</strong> produit du 16 bits : un ALAC 24 bits perd ses 8 derniers bits. La ligne de qualité décodée l'affiche honnêtement (<code>ALAC · 16 bits</code>).</li>
+    </ul>
   </div>
 </section>
 
